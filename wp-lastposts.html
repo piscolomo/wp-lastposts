@@ -1,0 +1,72 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="wp-lastposts" attributes="nposts">
+
+  <template>
+
+  <style>
+    article{
+      width: 30%;
+      display: inline-block;
+      margin: 20px 0 20px 20px;
+      vertical-align: top;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 15px;
+      box-sizing: border-box;
+    }
+    article img{
+      width: 100%;
+    }
+  </style>
+
+    <core-ajax
+    id="ajax"
+    url="http://localhost:8080/wpcomponents/api/get_recent_posts/"
+    handleAs="json"
+    auto
+    on-core-response="{{handleResponse}}"></core-ajax>
+
+      <template repeat="{{posts}}">
+        <article>
+          <h3>{{title}}</h3>
+          <image src="{{thumbnail}}">
+          <html-unescaped html="{{content}}"></html-unescaped>
+        </article>
+      </template>
+
+  </template>
+
+  <script>
+    Polymer({
+      nposts: 1,
+
+      created: function() {
+        this.posts = [];
+      },
+
+      handleResponse: function(){
+        this.result = this.$.ajax.response;
+        if (this.result && this.result.posts) {
+          this.posts = this.result.posts.slice(0,this.nposts);
+        } else{
+          this.posts = [];
+        }
+      }
+
+    });
+  </script>
+
+</polymer-element>
+
+
+<polymer-element name="html-unescaped" attributes="html">
+  <script>
+    Polymer({
+      htmlChanged: function(){
+        this.innerHTML = this.html;
+      }
+    });
+  </script>
+</polymer-element>
