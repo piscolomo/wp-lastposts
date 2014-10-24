@@ -9,6 +9,8 @@ That's it, now import wp-lastposts.html in your theme, don't forget the script r
 
 And add the web component wp-lastposts
 
-> <wp-lastposts nposts="5"></wp-lastposts>
+```html
+<pre><wp-lastposts nposts="5"></wp-lastposts></pre>
+```
 
 Use the attribute nposts to indicate how many recent posts do you need to display (default is one)
